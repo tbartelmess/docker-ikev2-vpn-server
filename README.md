@@ -11,7 +11,7 @@ there is some configuration needed
 
 ### 1. Start the IKEv2 VPN Server
 
-`docker run -d --name ikev2-vpn-server --restart=always /opt/vpn-settings:/vpn-settings --privileged -p 500:500/udp -p 4500:4500/udp tbartelmess/ikev2-vpn-server`
+`docker run -d --name ikev2-vpn-server --restart=always -v /opt/vpn-settings:/vpn-settings --privileged -p 500:500/udp -p 4500:4500/udp tbartelmess/ikev2-vpn-server`
 
 ### 2. Generate the PKI Infrastructure for the server
 

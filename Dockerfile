@@ -6,7 +6,7 @@ RUN apt-get update \
 
 RUN mkdir /vpn-settings
 
-ADD ./vpn-settings/* /vpn-settings-defaults/
+COPY ./vpn-settings/* /vpn-settings-defaults/
 ADD ./bin/* /usr/bin/
 
 VOLUME /vpn-settings

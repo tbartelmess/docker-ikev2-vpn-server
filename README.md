@@ -36,7 +36,7 @@ docker run ikev2-vpn-server ipsec pki
 
 ##### Generate the key for the server certificate
 
-`docker run ikev2-vpn-server ipsec pki --gen > /opt/vpn-settings/ipsec.d/private/server-key.der`
+`docker run tbartelmess/ikev2-server ipsec pki --gen > /opt/vpn-settings/ipsec.d/private/server-key.der`
 
 ##### Extract the public key of the server key
 

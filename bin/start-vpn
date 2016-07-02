@@ -41,6 +41,7 @@ for configfile in **; do
     if [ -f $configfile ]; then
         target=/vpn-settings/$configfile
         if [ ! -f target ]; then
+            echo "Copying ${configfile} to ${target}"
             cp $configfile $target
         fi
     fi

@@ -32,9 +32,22 @@ iptables -t nat -A POSTROUTING -s 10.8.0.0/16 -o eth0 -j MASQUERADE
 ip6tables -t nat -A POSTROUTING -s 2a00:1450:400c:c05::/64 -o eth0 -m policy --dir out --pol ipsec -j ACCEPT
 ip6tables -t nat -A POSTROUTING -s 2a00:1450:400c:c05::/64 -o eth0 -j MASQUERADE
 
-# hotfix for openssl `unable to write 'random state'` stderr
-SHARED_SECRET="123$(openssl rand -base64 32 2>/dev/null)"
-[ -f /etc/ipsec.secrets ] || echo ": PSK \"${SHARED_SECRET}\"" > /etc/ipsec.secrets
+echo "Copying settings from /vpn-settings"
+
+cd /vpn-settings-defaults
+
+shopt -s globstar
+for configfile in **; do 
+    if [ -f $configfile ]; then
+        target=/vpn-settings/$configfile
+        if [ ! -f target ]; then
+            cp $configfile $target
+        fi
+    fi
+done
+
+cp -R /vpn-settings/* /etc/
+
 
 # hotfix for https://github.com/gaomd/docker-ikev2-vpn-server/issues/7
 rm -f /var/run/starter.charon.pid

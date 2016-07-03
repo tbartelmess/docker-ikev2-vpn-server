@@ -45,7 +45,12 @@ for configfile in **; do
             echo "Copying ${configfile} -> ${target}"
             cp $configfile $target
         fi
+    else
+        if [ -d $configfile ]; then
+            mkdir -p $configfile
+        fi
     fi
+
 done
 
 cp -R /vpn-settings/* /etc/

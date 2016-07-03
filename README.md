@@ -81,6 +81,11 @@ docker exec ikev2-vpn-server ipsec pki --issue \
 --dn "C=CH, O=strongSwan, CN=thomas@bartelmess.io" > /opt/vpn-settings/ipsec.d/certs/client-cert.der
 ```
 
+#### Set the server name in ipsec.conf
+
+open `/opt/vpn-settings/ipsec.conf` in your faviourite editor and set `leftid` in the `conn ikev2-certificate` section
+to the FQDN of your server.
+
 ### Restart the server
 
 `docker restart -t 1 ikev2-vpn-server`
@@ -95,6 +100,6 @@ Copyright (c) 2016 Mengdi Gao, This software is licensed under the [MIT License]
 
 ---
 
-* IKEv2 protocol requires iOS 8 or later, Mac OS X 10.11 El Capitan is supported as well.
+* IKEv2 protocol requires iOS 8 or later or Mac OS X 10.11 El Capitan.
 
 * iOS and OS X/macOS are really picky about having a SAN in the client certificates.

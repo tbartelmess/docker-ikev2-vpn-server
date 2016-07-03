@@ -38,9 +38,9 @@ cd /vpn-settings-defaults
 
 shopt -s globstar
 for configfile in **; do 
+    target=/vpn-settings/$configfile
     if [ -f $configfile ]; then
         echo "Found configfile ${configfile}"
-        target=/vpn-settings/$configfile
         if [ ! -f target ]; then
             echo "Copying ${configfile} -> ${target}"
             cp $configfile $target
@@ -48,8 +48,8 @@ for configfile in **; do
     else
         echo "Checking if ${configfile} is a directory"
         if [ -d $configfile ]; then
-            echo "Creating directory ${configfile}"
-            mkdir -p $configfile
+            echo "Creating directory ${target}"
+            mkdir -p $target
         fi
     fi
 

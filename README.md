@@ -21,12 +21,12 @@ and have users generate CSR's and not generate the keys for them***
 #### Generate the CA
 ##### Create a key for the CA.
 
-`docker run ikev2-vpn-server ipsec pki --gen > /opt/vpn-settings/ipsec.d/private/ca-key.der`
+`docker exec ikev2-vpn-server ipsec pki --gen > /opt/vpn-settings/ipsec.d/private/ca-key.der`
 
 ##### Generate the CA certificate
 
 ```
-docker run ikev2-vpn-server ipsec pki 
+docker exec ikev2-vpn-server ipsec pki 
 --self
 --in /vpn-settings/ipsec.d/caKey.der
 --dn "C=CA, O=strongSwan, CN=strongSwan CA"
@@ -36,19 +36,19 @@ docker run ikev2-vpn-server ipsec pki
 
 ##### Generate the key for the server certificate
 
-`docker run tbartelmess/ikev2-server ipsec pki --gen > /opt/vpn-settings/ipsec.d/private/server-key.der`
+`docker exec tbartelmess/ikev2-server ipsec pki --gen > /opt/vpn-settings/ipsec.d/private/server-key.der`
 
 ##### Extract the public key of the server key
 
 
-`docker run ikev2-vpn-server ipsec pki --pub --in /vpn-settings/ipsec.d/private/server-key.der  > /opt/vpn-settings/ipsec.d/pubkeys/server-pubkey.der`
+`docker exec ikev2-vpn-server ipsec pki --pub --in /vpn-settings/ipsec.d/private/server-key.der  > /opt/vpn-settings/ipsec.d/pubkeys/server-pubkey.der`
 
 ##### Create the server cert
 
 Replace `SERVER_ADDRESS` with the FQDN/IP of your server. If you have multiple addresses you add more SAN entries `--san OTHER_SERVER_NAME`
 
 ```
-docker run ikev2-vpn-server ipsec pki --issue \
+docker exec ikev2-vpn-server ipsec pki --issue \
 --in /opt/vpn-settings/ipsec.d/pubkeys/server-pubkey.der \
 --cacert /opt/vpn-settings/ipsec.d/cacerts/ca-cert.der\
 --cakey caKey.der \
@@ -62,18 +62,18 @@ Do this for every user of the VPN.
 
 #### Create a key for a client
 
-`docker run ikev2-vpn-server ipsec pki --gen > /opt/vpn-settings/ipsec.d/private/my-client-key.der`
+`docker exec ikev2-vpn-server ipsec pki --gen > /opt/vpn-settings/ipsec.d/private/my-client-key.der`
 
 #### Extract the public key
 
-`docker run ikev2-vpn-server ipsec pki --pub --in /vpn-settings/ipsec.d/private/my-client-key.der  > /opt/vpn-settings/ipsec.d/pubkeys/my-client-pubkey.der`
+`docker exec ikev2-vpn-server ipsec pki --pub --in /vpn-settings/ipsec.d/private/my-client-key.der  > /opt/vpn-settings/ipsec.d/pubkeys/my-client-pubkey.der`
 
 ##### Create the client cert
 
 Replace `USERNAME` with the username/email of the user. If you have multiple addresses you add more SAN entries `--san OTHER_USERNAME`. For iOS/OSX you need at least one SAN. It works best with email addresses
 
 ```
-docker run ikev2-vpn-server ipsec pki --issue \
+docker exec ikev2-vpn-server ipsec pki --issue \
 --in /vpn-settings/ipsec.d/pubkeys/my-client-pubkey.der \
 --cacert /vpn-settings/ipsec.d/cacerts/ca-cert.der \
 --cakey /vpn-settings/ipsec.d/private/ca-key.der \

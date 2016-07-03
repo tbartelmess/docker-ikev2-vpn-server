@@ -41,7 +41,7 @@ for configfile in **; do
     target=/vpn-settings/$configfile
     if [ -f $configfile ]; then
         echo "Found configfile ${configfile}"
-        if [ ! -f target ]; then
+        if [ ! -f $target ]; then
             echo "Copying ${configfile} -> ${target}"
             cp $configfile $target
         fi

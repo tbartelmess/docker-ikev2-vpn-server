@@ -4,9 +4,7 @@ RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get -y upgrade \
     && DEBIAN_FRONTEND=noninteractive apt-get -y install strongswan iptables uuid-runtime ndppd openssl curl iputils-ping strongswan-plugin-eap-mschapv2 strongswan-plugin-pubkey
 
-RUN mkdir /vpn-settings
-
-COPY ./vpn-settings/* /vpn-settings-defaults/
+ADD ./vpn-settings /vpn-settings-defaults
 ADD ./bin/* /usr/bin/
 
 VOLUME /vpn-settings

@@ -26,17 +26,17 @@ and have users generate CSR's and not generate the keys for them***
 ##### Generate the CA certificate
 
 ```
-docker exec ikev2-vpn-server ipsec pki 
---self
---in /vpn-settings/ipsec.d/caKey.der
---dn "C=CA, O=strongSwan, CN=strongSwan CA"
+docker exec ikev2-vpn-server ipsec pki \
+--self \
+--in /vpn-settings/ipsec.d/private/ca-key.der \
+--dn "C=CA, O=strongSwan, CN=strongSwan CA" \
 --ca > /opt/vpn-settings/ipsec.d/cacerts/ca-cert.der
 ```
 #### Generate the Server certificate 
 
 ##### Generate the key for the server certificate
 
-`docker exec tbartelmess/ikev2-server ipsec pki --gen > /opt/vpn-settings/ipsec.d/private/server-key.der`
+`docker exec ikev2-vpn-server ipsec pki --gen > /opt/vpn-settings/ipsec.d/private/server-key.der`
 
 ##### Extract the public key of the server key
 
@@ -49,11 +49,11 @@ Replace `SERVER_ADDRESS` with the FQDN/IP of your server. If you have multiple a
 
 ```
 docker exec ikev2-vpn-server ipsec pki --issue \
---in /opt/vpn-settings/ipsec.d/pubkeys/server-pubkey.der \
---cacert /opt/vpn-settings/ipsec.d/cacerts/ca-cert.der\
---cakey caKey.der \
---san SERVER_ADDRESS
---dn "C=CH, O=strongSwan, CN=SERVER_ADDRESS" > /opt/vpn-settings/ipsec.d/server-cert.der
+--in /vpn-settings/ipsec.d/pubkeys/server-pubkey.der \
+--cacert /vpn-settings/ipsec.d/cacerts/ca-cert.der \
+--cakey /vpn-settings/ipsec.d/private/ca-key.der \
+--san SERVER_ADDRESS \
+--dn "C=CH, O=strongSwan, CN=SERVER_ADDRESS" > /opt/vpn-settings/ipsec.d/certs/server-cert.der
 ```
 
 #### Setup Client a Client certificate
@@ -78,7 +78,7 @@ docker exec ikev2-vpn-server ipsec pki --issue \
 --cacert /vpn-settings/ipsec.d/cacerts/ca-cert.der \
 --cakey /vpn-settings/ipsec.d/private/ca-key.der \
 --san thomas@bartelmess.io \
---dn "C=CH, O=strongSwan, CN=thomas@bartelmess.io" > /opt/vpn-settings/ipsec.d/client-cert.der
+--dn "C=CH, O=strongSwan, CN=thomas@bartelmess.io" > /opt/vpn-settings/ipsec.d/certs/client-cert.der
 ```
 
 ### Restart the server

@@ -39,9 +39,10 @@ cd /vpn-settings-defaults
 shopt -s globstar
 for configfile in **; do 
     if [ -f $configfile ]; then
+        echo "Found configfile ${configfile}"
         target=/vpn-settings/$configfile
         if [ ! -f target ]; then
-            echo "Copying ${configfile} to ${target}"
+            echo "Copying ${configfile} -> ${target}"
             cp $configfile $target
         fi
     fi

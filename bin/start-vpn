@@ -46,7 +46,9 @@ for configfile in **; do
             cp $configfile $target
         fi
     else
+        echo "Checking if ${configfile} is a directory"
         if [ -d $configfile ]; then
+            echo "Creating directory ${configfile}"
             mkdir -p $configfile
         fi
     fi
